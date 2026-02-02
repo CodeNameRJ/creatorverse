@@ -41,7 +41,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented required features:
 
-👉🏿 *<img src='/assets/Creatorverdse.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />*
+👉🏿 <img src="assets/Creatorverse.gif" alt="Video Walkthrough" />
 
 ## Notes
 The main challenges involved correctly managing route parameters, syncing form state with the Supabase schema, and refining the UI layout to keep creator cards compact and visually balanced. Debugging issues related to schema mismatches and component semantics (such as improper HTML tags) helped reinforce best practices in React and frontend architecture.
