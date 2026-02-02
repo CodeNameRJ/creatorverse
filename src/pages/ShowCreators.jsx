@@ -3,71 +3,69 @@ import Card from "../components/Card";
 import { supabase } from "../client";
 import { Link } from "react-router-dom";
 
-
-
-
 const ShowCreators = () => {
-    const [creators, setCreators] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [errorMsg, setErrorMsg] = useState("");
+  const [creators, setCreators] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+  
+  console.log("First creator:", creators[0]);
+  console.log("Keys:", creators[0] ? Object.keys(creators[0]) : "no data");
 
-    console.log(creators[0]);
 
-    useEffect(() => {
-        const fetchCreators = async () => {
-        setLoading(true);
-        setErrorMsg("");
-        
-        const { data: creatorsData, error } = await supabase
-            .from("creators")
-            .select()
-            .order("id", { ascending: true });
+  useEffect(() => {
+    const fetchCreators = async () => {
+      setLoading(true);
+      setErrorMsg("");
 
-            console.log("data:", creatorsData);
-            console.log("error:", error);
+      const { data: creatorsData, error } = await supabase
+        .from("creators")
+        .select("*")
+        .order("id", { ascending: true });
 
-        if (error) {
-            setErrorMsg(error.message);
-            setCreators([]);
-        } else {
-            setCreators(creatorsData ?? []);
-        }
+      console.log("data:", creatorsData);
+      console.log("error:", error);
 
-        setLoading(false);
+      if (error) {
+        setErrorMsg(error.message);
+        setCreators([]);
+      } else {
+        setCreators(creatorsData ?? []);
+      }
+
+      setLoading(false);
     };
 
     fetchCreators();
-    }, []);
+  }, []);
 
-      
 
   if (loading) return <p>Loading creators...</p>;
-
   if (errorMsg) return <p>Error: {errorMsg}</p>;
 
-
-
-    return(
-    <div>
-
-      <div>
-        <h1>Creatorverse</h1>
-      <Link to="/ ">View Creators</Link> <br></br>
-      <Link to="/new"> Add Creator</Link>
-      </div>
+  return (
+    <div className="page">
       
-{/* comoponents for each creator */}
+
+      <div className="header-section">
+         <h1>Creatorverse</h1>
+         <div className="button-group">
+          <Link to="/" role="button">View Creators</Link>
+          <Link to="/new" role="button">Add Creator</Link>
+         </div>
+      </div>
+
+      {/* comoponents for each creator */}
       {creators.length === 0 ? (
         <p>No content creators found. Add one!</p>
-      ) :(
-      <div className="board">
-        {creators.map((creator) => (
-          <Card key={creator.id} creator={creator} />
-        ))}
-      </div>
-    )}
+      ) : (
+        <div className="board">
+          {creators.map((creator) => (
+            <Card key={creator.id} creator={creator} />
+          ))}
+        </div>
+      )}
     </div>
-    )
+  )
 }
 
 export default ShowCreators;
